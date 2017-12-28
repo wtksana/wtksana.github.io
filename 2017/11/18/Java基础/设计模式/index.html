@@ -1,0 +1,150 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="我的学习记录，部分资料来自网络"><title>设计模式 | tt_study</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">设计模式</h1><a id="logo" href="/.">tt_study</a><p class="description">我的学习记录，部分资料来自网络</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">设计模式</h1><div class="post-meta">Nov 18, 2017<span> | </span><span class="category"><a href="/categories/Java基础/">Java基础</a></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#开闭原则"><span class="toc-text">开闭原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Build模式"><span class="toc-text">Build模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工厂方法模式"><span class="toc-text">工厂方法模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#策略模式"><span class="toc-text">策略模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#装饰者模式"><span class="toc-text">装饰者模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代理模式"><span class="toc-text">代理模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#抽象工厂模式"><span class="toc-text">抽象工厂模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简单工厂，工厂方法，抽象工厂三者对比"><span class="toc-text">简单工厂，工厂方法，抽象工厂三者对比</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单例模式"><span class="toc-text">单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#饿汉式单例"><span class="toc-text">饿汉式单例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#懒汉式单例"><span class="toc-text">懒汉式单例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#线程安全的懒汉式单例"><span class="toc-text">线程安全的懒汉式单例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#双重检查锁定DCL-Double-Checked-Locking-单例"><span class="toc-text">双重检查锁定DCL(Double-Checked Locking)单例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#静态内部类单例"><span class="toc-text">静态内部类单例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模板方法"><span class="toc-text">模板方法</span></a></li></ol></div></div><div class="post-content"><p><a href="https://juejin.im/collection/582c32161e35c9488c282deb" target="_blank" rel="noopener">原文链接</a></p>
+<h3 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h3><p>（1）对于扩展是开放的（Open for extension）。这意味着模块的行为是可以扩展的。当应用的需求改变时，我们可以对模块进行扩展，使其具有满足那些改变的新行为。也就是说，我们可以改变模块的功能。</p>
+<p>（2）对于修改是关闭的（Closed for modification）。对模块行为进行扩展时，不必改动模块的源代码或者二进制代码。模块的二进制可执行版本，无论是可链接的库、DLL或者.EXE文件，都无需改动。</p>
+<p><strong>好处</strong>：</p>
+<p>可复用性好。</p>
+<p>我们可以在软件完成以后，仍然可以对软件进行扩展，加入新的功能，非常灵活。因此，这个软件系统就可以通过不断地增加新的组件，来满足不断变化的需求。</p>
+<p>可维护性好。</p>
+<p>由于对于已有的软件系统的组件，特别是它的抽象底层不去修改，因此，我们不用担心软件系统中原有组件的稳定性，这就使变化中的软件系统有一定的稳定性和延续性。</p>
+<h3 id="Build模式"><a href="#Build模式" class="headerlink" title="Build模式"></a>Build模式</h3><p>用来处理<strong>构建对象时有大量可选参数</strong>的问题</p>
+<p>Buidler模式, 是一种创建型的设计模式.<br>通常用来将一个<strong>复杂的对象</strong>的构造过程分离, 让使用者可以根据需要选择创建过程.<br>另外, 当这个复杂的对象的构造包含很多<strong>可选参数</strong>时, 那Builder模式可以说是不二之选了.</p>
+<h3 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h3><p><img src="https://user-gold-cdn.xitu.io/2016/11/29/55fce3b6d6c99c61e02d6c6ef3baac50.jpg" alt="工厂方法模式"></p>
+<p>几个点:<br>1, 为何叫工厂方法, 是因为<strong>每个工厂有一个方法来创建产品</strong>.<br>2, 每个产品对应一个工厂实例来生产这个产品实例.<br>3, 因为产品和其对应的工厂都与其他产品分离, 我们可以很轻易的去增加新的产品和其对应的工厂, 而不改变原来的结构. (<strong>开闭原则, 实际上还蕴含了职责单一</strong>)</p>
+<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><p>定义一组算法, 并将每一个单独算法封装起来, 让它们可以相互替换.</p>
+<p><img src="https://user-gold-cdn.xitu.io/2016/11/29/8f3ef0277d32622862ee66efffba38db.jpg?imageView2/0/w/1280/h/960/ignore-error/1" alt="策略模式"></p>
+<p>与简单工厂和工厂方法的区别：</p>
+<ol>
+<li>首先<strong>简单工厂</strong>和<strong>工厂方法</strong>是<strong>创建型</strong>的模式, 而<strong>策略模式</strong>是<strong>行为型</strong>的模式.</li>
+<li>所谓<strong>创建型</strong>就是说用来生产对象的, 注重的生产(new)这个部分, 用创建型的模式来代替直接new一个实例, 更多是想将直接的实例依赖通过不同的方法转化接口依赖.</li>
+<li>所谓<strong>行为型</strong>模式更多是描述一种行为, A使用B, 怎么使用的这个关系上.</li>
+</ol>
+<h3 id="装饰者模式"><a href="#装饰者模式" class="headerlink" title="装饰者模式"></a>装饰者模式</h3><p><img src="https://user-gold-cdn.xitu.io/2016/11/29/36eaa9e67b49cee0a91aaae47c86d8c6.jpg" alt="装饰者模式"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Drink doubleIceHoneyCoke = <span class="keyword">new</span> Ice(<span class="keyword">new</span> Ice(<span class="keyword">new</span> Honey(<span class="keyword">new</span> Coke())));</span><br><span class="line">System.out.println(doubleIceHoneyCoke.make());</span><br><span class="line"><span class="comment">//这是一杯可乐, 加一份蜂蜜, 加一份冰, 加一份冰</span></span><br></pre></td></tr></table></figure>
+<p>装饰者模式就是用来<strong>动态的给对象加上额外的职责</strong>.<br>Drink是被装饰的对象, Stuff作为装饰类, 可以<strong>动态地给被装饰对象添加特征, 职责</strong>.</p>
+<p>有的同学可能会说, 我完全可以通过继承关系, 在子类中添加职责的方式给父类以扩展啊. 是的, 没错, 继承本就是为了扩展.</p>
+<p>然而, 装饰者模式和子类继承扩展的最大区别在于:</p>
+<blockquote>
+<p>装饰者模式强调的是<strong>动态</strong>的扩展, 而继承关系是<strong>静态的</strong>.    </p>
+</blockquote>
+<p>由于继承机制的静态性, 我们会为每个扩展职责创建一个子类, 例如IceCoke, DoubleIceCoke, SugarXDrink, IceSugarXDrink等等…会造成类爆炸.</p>
+<blockquote>
+<p>另外, 这里引入一条新的面向对象编程原则:<br><strong>组合优于继承</strong>, 大家自行体会下.</p>
+</blockquote>
+<p>还有的同学说, 这种<strong>按需定制</strong>的方式貌似跟之前讲的<strong>Builder模式</strong>有点像啊, 那为什么不用Builder模式呢.</p>
+<p>这里先说明下二者的本质差异:</p>
+<blockquote>
+<p>Builder模式是一种<strong>创建型</strong>的设计模式. <strong>旨在解决对象的差异化构建的问题</strong>.<br>装饰者模式是一种<strong>结构型</strong>的设计模式. <strong>旨在处理对象和类的组合关系</strong>.</p>
+</blockquote>
+<p>实际上在这个例子中, 我们是可以用Builder模式的, 但就像使用继承机制一样, 会有些问题.<br>首先, Builder模式是构建对象, 那么实际上要求我们是必须事先了解有哪些属性/职责供选择. 这样我们才可以在构建对象时选择不同的Build方式. 也就是说:</p>
+<blockquote>
+<p>Builder模式的<strong>差异化构建</strong>是<strong>可预见</strong>的, 而装饰者模式实际上提供了一种不可预见的扩展组合关系.</p>
+</blockquote>
+<h3 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h3><p><img src="https://dn-myg6wstv.qbox.me/0a2c19fde43ca21faf52.jpg" alt="代理模式"></p>
+<p>相比于之前的关系, 这个相对简单, 就两个角色, 小光和大龙, 都实现了Person接口. 关键点在于:</p>
+<ul>
+<li>大龙是直接和供应商打交道的, 但是实际的决策和行为(签单)是由小光来做的.</li>
+<li>也就是说大龙是小光的代理.</li>
+</ul>
+<blockquote>
+<p>这就是我们所要说的<strong>代理模式</strong>:<br>为其他对象(小光)提供一个代理(大龙)以控制对这个对象的访问.</p>
+</blockquote>
+<p>细心的同学可能有发现, 这个例子的模式貌似和<strong>前文装饰模式</strong>有点类似啊. 这里大龙也相当于给小光<strong>装饰</strong>上了新的职责(谈判negotiate):</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">negotiate</span><span class="params">(<span class="keyword">int</span> price)</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"不接受, 要求降价"</span> + (price - <span class="number">80</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么代理模式相比与装饰模式有什么区别呢?</p>
+<p>让我们再带上重点符来重温下二者:</p>
+<ul>
+<li>代理模式旨在为一个对象提供一个代理, 来<strong>控制对这个对象的访问</strong>.</li>
+<li>装饰模式旨在为一个对象动态<strong>添加</strong>职责, 增加这个对象的行为/属性.</li>
+</ul>
+<blockquote>
+<p>二者虽然都会有<strong>代理类/装饰类</strong>实际调用<strong>被代理对象/被装饰对象</strong>的行为. 然而代理模式重在<strong>控制</strong>, 而装饰模式重在<strong>添加</strong>.</p>
+</blockquote>
+<p>上面说到<strong>大龙是有控制权的</strong>, 也就是说, 这种代理实际上是一种<strong>控制代理</strong>, 也可以称之为<strong>保护代理</strong>.</p>
+<p>代理模式除了这种<strong>控制访问/保护性</strong>的, 常常用到的场景还有:</p>
+<ul>
+<li>远程代理: 为一个在不同的地址空间的对象提供局部代表, 从而可以隐藏这个被代理对象存在于不同地址空间的事实. 这个代表有点类似于大使, 故而也可以称之为”大使模式”.</li>
+<li>智能引用代理: 在代理中对被代理对象的每个操作做些额外操作, 例如记录每次被代理对象被引用, 被调用的次数等. 有点像引用计数的感觉.</li>
+</ul>
+<h3 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h3><p><img src="https://user-gold-cdn.xitu.io/2016/12/15/68d97df2f7e43767f8d4991a8c5dd3b3.jpg?imageView2/0/w/1280/h/960/ignore-error/1" alt="抽象工厂模式"></p>
+<blockquote>
+<p>抽象工厂<br>提供一个创建<strong>一系列</strong>相关或互相依赖的对象的<strong>接口</strong>, 而无需指定它们的具体实现.</p>
+</blockquote>
+<h4 id="简单工厂，工厂方法，抽象工厂三者对比"><a href="#简单工厂，工厂方法，抽象工厂三者对比" class="headerlink" title="简单工厂，工厂方法，抽象工厂三者对比"></a>简单工厂，工厂方法，抽象工厂三者对比</h4><p><img src="https://user-gold-cdn.xitu.io/2016/12/15/caeff9f667c42548b4a9c58479db3f29.jpg" alt="对比"></p>
+<p><strong>简单工厂</strong><br>实际上我们可以理解为是一种编程习惯, 将类似对象的初始化放下一个地方, 便于管理.<br>它提供了一个工厂(表妹), 来根据不同的指令(drinkType)来生产不同的饮料产品(橙汁, 可乐, 酸梅汤).<br>相对简单, 适用于要创建类似(实现同一接口的)的产品, 且产品种类不多, 扩展可能性不大的情况. 当需要增加一中饮料时, 我们需要修改工厂(表妹)的实现, 增加drinkType的对应实现.</p>
+<p><strong>工厂方法</strong><br>顾名思义, 有一个工厂, 工厂(饮料机)里有那么一个方法(定义了一个创建对象的接口makeDrink), 可以生产产品(Drink). 由实现了这个工厂方法的类来决定具体生产出什么产品(可以是可乐, 橙汁, 奶茶等).</p>
+<p>相比于<strong>简单工厂</strong>, <strong>工厂方法</strong>有良好的扩展性, 当我们需要增加一种饮料时, 不需要去修改工厂, 只需扩展一个新的工厂, 实现其工厂方法, 提供新的饮料即可.</p>
+<p>这实际上就是典型的, 通过继承/实现, 来达成了对修改关闭, 对扩展开放的效果.</p>
+<p>另外, 从简单工厂到工厂方法, 我们也可以理解为是一次Switch Statements的重构.</p>
+<blockquote>
+<p>对于”Switch Statements的重构”, 有兴趣的同学可以参看&lt;&lt;重构–改善既有代码的设计&gt;&gt;一书的3.10节. 那是一本好书, 2010年的时候华为的一位技术经理推荐给我的, 感谢他.</p>
+<p>另外, 并不是我们以后遇到Switch就要想着改造, 遇到简单工厂就想着用工厂方法…还需根据实际情况取用合适的.</p>
+</blockquote>
+<p><strong>抽象工厂</strong><br>同样, 从名字中, 我们大致能了解, <strong>抽象工厂</strong>描述的一个抽象的工厂, 其可以生产<strong>一系列</strong>的相关的或是互相依赖的产品.</p>
+<p>抽象工厂和工厂方法有很多类似之处, 都是创建产品, 都是通过继承/实现, 来达成了对修改关闭, 对扩展开放的效果.</p>
+<p>然而, 抽象工厂相较于工厂方法, 它的重点, 是它解决的是一个产品族(相关的, 或是互相依赖的<strong>产品们</strong>)的创建问题, 而非仅仅是一类产品.</p>
+<p>以本故事来说, 工厂方法是用来创建<strong>一类</strong>产品, 通过他创建出来的都是饮料. 而抽象工厂是用来创建<strong>一系列</strong>产品, 包括店铺, 收银台, 餐具等, 这些产品是相关的, 都是一个分店所需要的.</p>
+<p>打个比方, 如果我有一个轮胎工厂, 我生产的东西都是轮胎, 只是规格不同, 我就可以使用工厂方法; 如果我是一个汽车工厂, 我生产汽车, 它需要轮胎, 车架, 发动机… 那么我就应用使用抽象工厂.</p>
+<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p><img src="https://user-gold-cdn.xitu.io/2016/12/20/bc3c11a1b50b95bb8669cdb9a501f050.jpg?imageView2/0/w/1280/h/960/ignore-error/1" alt="单例模式"></p>
+<p>保证一个类(HungryForm)仅有一个实例(sInstance), 并提供一个访问该实例的全局访问点(getInstance).<br>这就意味着单例通常有如下两个特点:</p>
+<ol>
+<li>构造函数是私有的(避免别的地方创建它)</li>
+<li>有一个static的方法来对外提供一个该单例的实例.</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HungryForm</span> <span class="keyword">extends</span> <span class="title">Form</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 提前创建好</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> HungryForm sInstance = <span class="keyword">new</span> HungryForm();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 私有化的构造, 避免别人直接创建表格</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">HungryForm</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 店长们通过这个接口来取表格</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> HungryForm <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同学们可能注意到了, 我们在这个单例模式中使用了<strong>Hungry</strong>这个词, 没错, 我们这里实现单例的方式使用的就是<strong>饿汉式</strong>.</p>
+<h4 id="饿汉式单例"><a href="#饿汉式单例" class="headerlink" title="饿汉式单例"></a>饿汉式单例</h4><blockquote>
+<p>饿汉式单例<br>顾名思义, 就是很饿, 不管三七二十一先创建了一个实例放着, 而不管最终用不用.</p>
+</blockquote>
+<p>然而, 这个单例可能最终并不需要, 如果提前就创建好, 就会浪费内存空间了.<br>例如, 我们这个故事中, 年底假期中, 所有店子都歇业十天, 这十天就没有任何店长会去访问这个表格, 然而小光还是都每天都创建了, 这就造成了空间浪费(假设这个表格数据(对象实例)很大…)</p>
+<h4 id="懒汉式单例"><a href="#懒汉式单例" class="headerlink" title="懒汉式单例"></a>懒汉式单例</h4><p>那么怎么办呢?<br>我们可以使用<strong>懒汉式单例</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class LazyForm extends Form &#123;</span><br><span class="line"></span><br><span class="line">    private static LazyForm sInstance;</span><br><span class="line"></span><br><span class="line">    // 私有化的构造, 避免别人直接创建表格</span><br><span class="line">    private LazyForm() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    // 店长们通过这个接口来取表格</span><br><span class="line">    public static LazyForm getInstance() &#123;</span><br><span class="line"></span><br><span class="line">        // 在有店长访问该文件时才创建, 通过判断当前文件是否存在(sInstance == null)来避免重复创建</span><br><span class="line">        if (sInstance == null) &#123;</span><br><span class="line">            sInstance = new LazyForm();</span><br><span class="line">        &#125;</span><br><span class="line">        return sInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>懒汉式单例<br>“懒”, 也就是现在懒得创建, 等有用户要用的时候才创建.</p>
+</blockquote>
+<h4 id="线程安全的懒汉式单例"><a href="#线程安全的懒汉式单例" class="headerlink" title="线程安全的懒汉式单例"></a>线程安全的懒汉式单例</h4><p>但是这样创建也会有问题啊, 因为他是通过sInstance == null判断当前是否已经存在表格文件的, 假设有两个店长同时调用getInstance来取文件, 同时走到sInstance == null判断这一步, 就会出问题了 — 有可能创建了两个文件(实例), 就达不到单例的目的了.</p>
+<p>所以说这种懒汉式是线程不安全的, 在多线程环境下, 并不能做到单例.</p>
+<p>那么, 该如何做, 既能懒加载, 又线程安全呢?<br>我们都知道Java中多线程环境往往会用到synchronized关键字, 通过他来做线程并发性控制.</p>
+<blockquote>
+<p><strong>synchronized</strong>方法控制对类成员变量的访问, 每个类实例对应一把锁, synchronized修饰的方法必须获得调用该方法的类实例的锁方能执行, 否则所属线程阻塞. <strong>方法一旦执行, 就独占该锁. 直到从该方法返回时才将锁释放.</strong> 此后被阻塞的线程方能获得该锁, 重新进入可执行状态.</p>
+</blockquote>
+<p>让我们来看下<strong>线程安全的懒汉式单例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class SynchronizedLazyForm extends Form &#123;</span><br><span class="line"></span><br><span class="line">    private static SynchronizedLazyForm sInstance;</span><br><span class="line"></span><br><span class="line">    // 私有化的构造, 避免别人直接创建表格</span><br><span class="line">    private SynchronizedLazyForm() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    // 店长们通过这个接口来取表格</span><br><span class="line">    // 注意, 这是一个synchronized方法</span><br><span class="line">    // 参考https://docs.oracle.com/javase/tutorial/essential/concurrency/syncmeth.html</span><br><span class="line">    public static synchronized SynchronizedLazyForm getInstance() &#123;</span><br><span class="line"></span><br><span class="line">        // 在有店长访问该文件时才创建, 通过判断当前文件是否存在(sInstance == null)来避免重复创建</span><br><span class="line">        if (sInstance == null) &#123;</span><br><span class="line">            sInstance = new SynchronizedLazyForm();</span><br><span class="line">        &#125;</span><br><span class="line">        return sInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>线程安全的懒汉式单例<br>利用synchronized关键字来修饰对外提供该类唯一实例的接口(getInstance)来确保在一个线程调用该接口时能阻塞(block)另一个线程的调用, 从而达到多线程安全, 避免重复创建单例.</p>
+</blockquote>
+<p>然而, synchronized有很大的性能开销. 而且在这里我们是修饰了getInstance方法, 意味着, 如果getInstance被很多线程频繁调用时, 每次都会做同步检查, 会导致程序性能下降.</p>
+<p>实际上我们要的是单例, 当单例已经存在的时候, 我们是不需要用同步方法来控制的. 一如我们第一种单例的实现—饿汉模式单例, 我们一开始就创建好了单例, 就无需担心线程同步问题.</p>
+<p>但是饿汉模式是提前创建, 那么我们怎么能做到延迟创建, 且线程安全, 且性能有所提升呢?</p>
+<h4 id="双重检查锁定DCL-Double-Checked-Locking-单例"><a href="#双重检查锁定DCL-Double-Checked-Locking-单例" class="headerlink" title="双重检查锁定DCL(Double-Checked Locking)单例"></a>双重检查锁定DCL(Double-Checked Locking)单例</h4><p>如上所言, 我们想要的是单例, 故而单例已经存在的情况下我们无需做同步检查, 如下实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class DCLForm extends Form &#123;</span><br><span class="line"></span><br><span class="line">    // 注意, 这里我们引入了volatile关键字</span><br><span class="line">    private volatile static DCLForm sInstance;</span><br><span class="line"></span><br><span class="line">    // 私有化的构造, 避免别人直接创建表格</span><br><span class="line">    private DCLForm() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    // 店长们通过这个接口来取表格</span><br><span class="line">    public static DCLForm getInstance() &#123;</span><br><span class="line"></span><br><span class="line">        // 第一次检查</span><br><span class="line">        if (sInstance == null) &#123;</span><br><span class="line">            // 第一次调用getInstance时, sInstance为空, 进入此分支</span><br><span class="line">            // 使用synchronized block来确保多线程的安全</span><br><span class="line">            synchronized (DCLForm.class) &#123;</span><br><span class="line">                // 第二次检查</span><br><span class="line">                if (sInstance == null) &#123;</span><br><span class="line">                    sInstance = new DCLForm();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return sInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>舍弃了同步方法</li>
+<li>在getInstance时, 先检查单例是否已经存在, 如果存在了, 我们无需同步操作了, 任何线程过来直接取单例就行, 大大提升了性能.</li>
+<li>若单例不存在(第一次调用时), 使用synchronized同步代码块, 来确保进入的只有一个线程, 在此再做一次单例存在与否的检查, 进而创建出单例.</li>
+</ol>
+<p>这样就保证了:</p>
+<ol>
+<li>在单例还没有创建时, 多个线程同时调用getInsance时, 保证只有一个线程能够执行sInstance = new DCLForm()创建单例.</li>
+<li>在单例已经存在时, getInsance没有加锁, 直接访问, 访问创建好的单例, 从而达到性能提升.</li>
+</ol>
+<blockquote>
+<p>注意<br>这里我们对sInstance使用的<a href="https://link.juejin.im/?target=https%3A%2F%2Fdocs.oracle.com%2Fjavase%2Fspecs%2Fjls%2Fse8%2Fhtml%2Fjls-8.html%23jls-8.3.1.4" target="_blank" rel="noopener">volatile关键字</a><br>具体原因和原理, 请参考<a href="https://link.juejin.im/?target=http%3A%2F%2Fwww.infoq.com%2Fcn%2Farticles%2Fdouble-checked-locking-with-delay-initialization" target="_blank" rel="noopener">这篇文章</a>, 讲的很详细.</p>
+</blockquote>
+<p>然而, 使用volatile关键字的双重检查方案需要JDK5及以上(因为从JDK5开始使用新的JSR-133内存模型规范，这个规范增强了volatile的语义).</p>
+<p>那么我们还有什么更通用的方式能保证多线程单例创建, 以及懒加载方式呢?</p>
+<h4 id="静态内部类单例"><a href="#静态内部类单例" class="headerlink" title="静态内部类单例"></a>静态内部类单例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class StaticInnerClassForm extends Form &#123;</span><br><span class="line"></span><br><span class="line">    // 私有化的构造, 避免别人直接创建表格</span><br><span class="line">    private StaticInnerClassForm() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    // 店长们通过这个接口来取表格</span><br><span class="line">    public static StaticInnerClassForm getInstance() &#123;</span><br><span class="line">       return FormHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 在静态内部类中实例化该单例</span><br><span class="line">    private static class FormHolder &#123;</span><br><span class="line">       private static final StaticInnerClassForm INSTANCE = new StaticInnerClassForm();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种方式, 通过JVM的类加载方式(虚拟机会保证一个类的初始化在多线程环境中被正确的加锁、同步), 来保证了多线程并发访问的正确性.</p>
+<p>另外, 由于静态内部类的加载特性 — 在使用时才加载, 这种方式也达成了懒加载的目的.</p>
+<p>显然, 这种方式是一种比较完美的单例模式. 当然, 它也有其弊端, 依赖特定编程语言, 适用于JAVA平台.</p>
+<h3 id="模板方法"><a href="#模板方法" class="headerlink" title="模板方法"></a>模板方法</h3><p><img src="https://user-gold-cdn.xitu.io/2016/12/22/1924978a4ea218b7b0defbcbc80de696.jpg?imageView2/0/w/1280/h/960/ignore-error/1" alt="模板方法"></p>
+<p>模板方法模式<br>定义一个操作中的算法骨架(热干面的制作流程), 而将某些步骤实现延迟到子类中. 使得子类可以根据实际情况不改变算法骨架(热干面的制作流程), 但是可以重新定义或改变该算法中的某些特定步骤(例如装碗).</p>
+</div><div class="tags"><a href="/tags/Java/">Java</a></div><div class="post-nav"><a class="pre" href="/2017/11/18/Java基础/HashMap/">HaspMap</a><a class="next" href="/2017/11/18/Mysql/Mysql事务/">Mysql事务</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
+  owner: 'wtksana',
+  repo: 'wtksana.github.io',
+  oauth: {
+    client_id: '3337687b3c13cd764c2a',
+    client_secret: '524f7e3efacf27d6614a5f2a9f623f8753a84eb5',
+  },
+})
+gitment.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="wtksana.github.io"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java高级/">Java高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mysql/">Mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Boot/">Spring Boot</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Mysql/" style="font-size: 15px;">Mysql</a> <a href="/tags/Redis/" style="font-size: 15px;">Redis</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/27/SpringBoot/spring boot 项目构建/">Spring Boot 项目构建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/18/Redis/redis缓存击穿、穿透、雪崩问题/">缓存击穿、穿透、雪崩问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/04/Mysql/日志表数据量大查询慢/">日志表数据量大查询慢问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/20/Mysql/Mysql引擎/">Mysql引擎</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/18/Java基础/线程池/">线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/18/Java基础/README/">推荐一个博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/18/Java基础/StringBuilder和StringBuffer/">StringBuilder和StringBuffer</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/18/Java基础/ThreadLocal/">ThreadLocal</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/18/Java基础/动态代理/">动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/18/Java基础/反射/">反射</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2017 <a href="/." rel="nofollow">tt_study.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
