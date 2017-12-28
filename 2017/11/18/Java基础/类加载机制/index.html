@@ -74,7 +74,7 @@
 <li><strong>可以实现隔离</strong>，一个复杂的程序，内部可能按模块组织，不同模块可能使用同一个类，但使用的是不同版本，如果使用同一个类加载器，它们是无法共存的，不同模块使用不同的类加载器就可以实现隔离，Tomcat使用它隔离不同的Web应用，OSGI使用它隔离不同模块。</li>
 <li><strong>可以实现热部署</strong>，使用同一个ClassLoader，类只会被加载一次，加载后，即使class文件已经变了，再次加载，得到的也还是原来的Class对象，而使用MyClassLoader，则可以先创建一个新的ClassLoader，再用它加载Class，得到的Class对象就是新的，从而实现动态更新。</li>
 </ul>
-</div><div class="tags"><a href="/tags/Java/">Java</a></div><div class="post-nav"><a class="pre" href="/2017/11/18/Java基础/抽象类/">抽象类</a><a class="next" href="/2017/11/18/Java基础/堆-数据结构/">数据结构-堆</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
+</div><div class="tags"><a href="/tags/Java/">Java</a></div><div class="post-nav"><a class="pre" href="/2017/11/18/Java基础/红黑树/">红黑树</a><a class="next" href="/2017/11/18/Java基础/HashMap/">HaspMap</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
   owner: 'wtksana',
   repo: 'wtksana.github.io',
   oauth: {

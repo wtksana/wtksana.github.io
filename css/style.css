@@ -43,7 +43,7 @@ a, button.submit {
   transition: all .1s ease-in; }
 
 a:hover, a:active {
-  color: #444; }
+  color: #333; }
 
 a:focus {
   outline: auto; }
@@ -161,14 +161,15 @@ div {
   color: #888; }
 
 .post {
-  padding: 25px 0 15px; }
+  padding: 25px 0 15px;
+  border-bottom: 1px solid #ddd; }
   .post .post-title {
     margin: 0;
-    color: #555;
+    color: #333;
     text-align: left;
     font: bold 25px/1.1 "ff-tisa-web-pro", Cambria, "Times New Roman", Georgia, Times, sans-serif; }
     .post .post-title a {
-      color: #555; }
+      color: #333; }
   .post .post-meta {
     padding: 0;
     margin: 15px 0 0;
@@ -287,9 +288,7 @@ div {
         padding-right: 0.3em; }
 
 .page-navigator {
-  border-top: 1px solid #ddd;
   list-style: none;
-  margin-top: 25px;
   padding: 25px 0 0;
   font-size: 14px;
   text-align: center; }
@@ -730,10 +729,9 @@ pre {
 /* read more*/
 .readmore a {
   font-size: 14px;
-  color: #444;
-  margin: -10px 0;
+  color: #0066CC;
+  margin: -12px 0;
   padding: 5px 10px;
-  border: 1px solid #ddd;
   border-radius: 5px;
   float: right; }
   .readmore a:after {
@@ -741,8 +739,7 @@ pre {
     content: "\f101";
     padding-left: 0.3em; }
   .readmore a:hover {
-    background: #F8F8F8;
-    border-bottom-color: #D26911; }
+    background: #F8F8F8; }
 
 /* syntax highlight*/
 figure.highlight,
