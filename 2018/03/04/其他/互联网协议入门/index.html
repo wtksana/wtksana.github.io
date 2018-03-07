@@ -46,7 +46,7 @@
 <p>网络地址帮助我们确定计算机所在的子网络，MAC地址则将数据包送到该子网络中的目标网卡。因此，从逻辑上可以推断，必定是先处理网络地址，然后再处理MAC地址。</p>
 <h4 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h4><p>规定网络地址的协议，叫做IP协议。它所定义的地址，就被称为IP地址。</p>
 <p>目前，广泛采用的是IP协议第四版，简称IPv4。这个版本规定，网络地址由32个二进制位组成。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052908.png" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052908.png" alt="ip"></p>
 <p>习惯上，我们用分成四段的十进制数表示IP地址，从0.0.0.0一直到255.255.255.255。</p>
 <p>互联网上的每一台计算机，都会分配到一个IP地址。这个地址分成两个部分，前一部分代表网络，后一部分代表主机。比如，IP地址172.16.254.1，这是一个32位的地址，假定它的网络部分是前24位（172.16.254），那么主机部分就是后8位（最后的那个1）。处于同一个子网络的电脑，它们IP地址的网络部分必定是相同的，也就是说172.16.254.2应该与172.16.254.1处在同一个子网络。</p>
 <p>但是，问题在于单单从IP地址，我们无法判断网络部分。还是以172.16.254.1为例，它的网络部分，到底是前24位，还是前16位，甚至前28位，从IP地址上是看不出来的。</p>
@@ -59,9 +59,9 @@
 <p>但是前面说过，以太网数据包只包含MAC地址，并没有IP地址的栏位。那么是否需要修改数据定义，再添加一个栏位呢？</p>
 <p>回答是不需要，我们可以把IP数据包直接放进以太网数据包的”数据”部分，因此完全不用修改以太网的规格。这就是互联网分层结构的好处：上层的变动完全不涉及下层的结构。</p>
 <p>具体来说，IP数据包也分为”标头”和”数据”两个部分。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052909.png" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052909.png" alt="数据包"></p>
 <p>“标头”部分主要包括版本、长度、IP地址等信息，”数据”部分则是IP数据包的具体内容。它放进以太网数据包后，以太网数据包就变成了下面这样。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052910.png" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052910.png" alt="数据包"></p>
 <p>IP数据包的”标头”部分的长度为20到60字节，整个数据包的总长度最大为65,535字节。因此，理论上，一个IP数据包的”数据”部分，最长为65,515字节。前面说过，以太网数据包的”数据”部分，最长只有1500字节。因此，如果IP数据包超过了1500字节，它就需要分割成几个以太网数据包，分开发送了。</p>
 <h4 id="ARP协议"><a href="#ARP协议" class="headerlink" title="ARP协议"></a>ARP协议</h4><p>关于”网络层”，还有最后一点需要说明。</p>
 <p>因为IP数据包是放在以太网数据包里发送的，所以我们必须同时知道两个地址，一个是对方的MAC地址，另一个是对方的IP地址。通常情况下，对方的IP地址是已知的（后文会解释），但是我们不知道它的MAC地址。</p>
@@ -76,9 +76,9 @@
 <p><strong>“传输层”的功能，就是建立”端口到端口”的通信。相比之下，”网络层”的功能是建立”主机到主机”的通信。只要确定主机和端口，我们就能实现程序之间的交流。</strong>因此，Unix系统就把主机+端口，叫做”套接字”（socket）。有了它，就可以进行网络应用程序开发了。</p>
 <h4 id="UDP协议"><a href="#UDP协议" class="headerlink" title="UDP协议"></a>UDP协议</h4><p>现在，我们必须在数据包中加入端口信息，这就需要新的协议。最简单的实现叫做UDP协议，它的格式几乎就是在数据前面，加上端口号。</p>
 <p>UDP数据包，也是由”标头”和”数据”两部分组成。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052911.png" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052911.png" alt="数据包"></p>
 <p>“标头”部分主要定义了发出端口和接收端口，”数据”部分就是具体的内容。然后，把整个UDP数据包放入IP数据包的”数据”部分，而前面说过，IP数据包又是放在以太网数据包之中的，所以整个以太网数据包现在变成了下面这样：</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052912.png" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052912.png" alt="数据包"></p>
 <p>UDP数据包非常简单，”标头”部分一共只有8个字节，总长度不超过65,535字节，正好放进一个IP数据包。</p>
 <h4 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h4><p>UDP协议的优点是比较简单，容易实现，但是缺点是可靠性较差，一旦数据包发出，无法知道对方是否收到。</p>
 <p>为了解决这个问题，提高网络可靠性，TCP协议就诞生了。这个协议非常复杂，但可以近似认为，它就是有确认机制的UDP协议，每发出一个数据包都要求确认。如果有一个数据包遗失，就收不到确认，发出方就知道有必要重发这个数据包了。</p>
@@ -88,18 +88,18 @@
 <p><strong>“应用层”的作用，就是规定应用程序的数据格式。</strong></p>
 <p>举例来说，TCP协议可以为各种各样的程序传递数据，比如Email、WWW、FTP等等。那么，必须有不同协议规定电子邮件、网页、FTP数据的格式，这些应用程序协议就构成了”应用层”。</p>
 <p>这是最高的一层，直接面对用户。它的数据就放在TCP数据包的”数据”部分。因此，现在的以太网的数据包就变成下面这样。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052913.png" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052913.png" alt="数据包"></p>
 <p>至此，整个互联网的五层结构，自下而上全部讲完了。这是从系统的角度，解释互联网是如何构成的。下面，我们反过来，从用户的角度，自上而下看看这个结构是如何发挥作用，完成一次网络数据交换的。</p>
 <h3 id="以上小结"><a href="#以上小结" class="headerlink" title="以上小结"></a>以上小结</h3><p>先对前面的内容，做一个小结。</p>
 <p>我们已经知道，网络通信就是交换数据包。电脑A向电脑B发送一个数据包，后者收到了，回复一个数据包，从而实现两台电脑之间的通信。数据包的结构，基本上是下面这样：</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052913.png" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201205/bg2012052913.png" alt="数据包"></p>
 <p>发送这个包，需要知道两个地址：</p>
 <ul>
 <li>对方的MAC地址</li>
 <li>对方的IP地址</li>
 </ul>
 <p>有了这两个地址，数据包才能准确送到接收者手中。但是，前面说过，MAC地址有局限性，如果两台电脑不在同一个子网络，就无法知道对方的MAC地址，必须通过网关（gateway）转发。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061101.jpg" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061101.jpg" alt="网关"></p>
 <p>上图中，1号电脑要向4号电脑发送一个数据包。它先判断4号电脑是否在同一个子网络，结果发现不是（后文介绍判断方法），于是就把这个数据包发到网关A。网关A通过路由协议，发现4号电脑位于子网络B，又把数据包发给网关B，网关B再转发到4号电脑。</p>
 <p>1号电脑把数据包发到网关A，必须知道网关A的MAC地址。所以，数据包的目标地址，实际上分成两种情况：</p>
 <table>
@@ -129,7 +129,7 @@
 <li>DNS的IP地址</li>
 </ul>
 <p>下图是Windows系统的设置窗口。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061111.png" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061111.png" alt="IP设置"></p>
 <p>这四个参数缺一不可，后文会解释为什么需要知道它们才能上网。由于它们是给定的，计算机每次开机，都会分到同样的IP地址，所以这种情况被称作”静态IP地址上网”。</p>
 <p>但是，这样的设置很专业，普通用户望而生畏，而且如果一台电脑的IP地址保持不变，其他电脑就不能使用这个地址，不够灵活。出于这两个原因，大多数用户使用”动态IP地址上网”。</p>
 <h4 id="动态IP地址"><a href="#动态IP地址" class="headerlink" title="动态IP地址"></a>动态IP地址</h4><p>所谓”动态IP地址”，指计算机开机后，会自动分配到一个IP地址，不用人为设定。它使用的协议叫做<a href="http://zh.wikipedia.org/zh/DHCP" target="_blank" rel="noopener">DHCP协议</a>。</p>
@@ -137,7 +137,7 @@
 <p>前面说过，如果两台计算机在同一个子网络，必须知道对方的MAC地址和IP地址，才能发送数据包。但是，新加入的计算机不知道这两个地址，怎么发送数据包呢？</p>
 <p>DHCP协议做了一些巧妙的规定。</p>
 <h4 id="DHCP协议"><a href="#DHCP协议" class="headerlink" title="DHCP协议"></a>DHCP协议</h4><p>首先，它是一种应用层协议，建立在UDP协议之上，所以整个数据包是这样的：</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061102.png" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061102.png" alt="数据包"></p>
 <p>　　（1）最前面的”以太网标头”，设置发出方（本机）的MAC地址和接收方（DHCP服务器）的MAC地址。前者就是本机网卡的MAC地址，后者这时不知道，就填入一个广播地址：FF-FF-FF-FF-FF-FF。</p>
 <p>　　（2）后面的”IP标头”，设置发出方的IP地址和接收方的IP地址。这时，对于这两者，本机都不知道。于是，发出方的IP地址就设为0.0.0.0，接收方的IP地址设为255.255.255.255。</p>
 <p>　　（3）最后的”UDP标头”，设置发出方的端口和接收方的端口。这一部分是DHCP协议规定好的，发出方是68端口，接收方是67端口。</p>
@@ -160,17 +160,17 @@
 <li>DNS的IP地址：8.8.8.8</li>
 </ul>
 <p>然后他打开浏览器，想要访问Google，在地址栏输入了网址：www.google.com。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061103.png" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061103.png" alt="google"></p>
 <p>这意味着，浏览器要向Google发送一个网页请求的数据包。</p>
 <h4 id="DNS协议"><a href="#DNS协议" class="headerlink" title="DNS协议"></a>DNS协议</h4><p>我们知道，发送数据包，必须要知道对方的IP地址。但是，现在，我们只知道网址www.google.com，不知道它的IP地址。</p>
 <p><a href="http://en.wikipedia.org/wiki/Domain_Name_System" target="_blank" rel="noopener">DNS协议</a>可以帮助我们，将这个网址转换成IP地址。已知DNS服务器为8.8.8.8，于是我们向这个地址发送一个DNS数据包（53端口）。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061105.png" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061105.png" alt="数据包"></p>
 <p>然后，DNS服务器做出响应，告诉我们Google的IP地址是172.194.72.105。于是，我们知道了对方的IP地址。</p>
 <h4 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h4><p>接下来，我们要判断，这个IP地址是不是在同一个子网络，这就要用到子网掩码。</p>
 <p>已知子网掩码是255.255.255.0，本机用它对自己的IP地址192.168.1.100，做一个二进制的AND运算（两个数位都为1，结果为1，否则为0），计算结果为192.168.1.0；然后对Google的IP地址172.194.72.105也做一个AND运算，计算结果为172.194.72.0。这两个结果不相等，所以结论是，Google与本机不在同一个子网络。</p>
 <p>因此，我们要向Google发送数据包，必须通过网关192.168.1.1转发，也就是说，接收方的MAC地址将是网关的MAC地址。</p>
 <h4 id="应用层协议"><a href="#应用层协议" class="headerlink" title="应用层协议"></a>应用层协议</h4><p>浏览网页用的是HTTP协议，它的整个数据包构造是这样的：</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061106.png" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061106.png" alt="数据包"></p>
 <p>HTTP部分的内容，类似于下面这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET / HTTP/1.1</span><br><span class="line">Host: www.google.com</span><br><span class="line">Connection: keep-alive</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1) ......</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line">Accept-Encoding: gzip,deflate,sdch</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8</span><br><span class="line">Accept-Charset: GBK,utf-8;q=0.7,*;q=0.3</span><br><span class="line">Cookie: ... ...</span><br></pre></td></tr></table></figure></p>
 <p>我们假定这个部分的长度为4960字节，它会被嵌在TCP数据包之中。</p>
 <h4 id="TCP协议-1"><a href="#TCP协议-1" class="headerlink" title="TCP协议"></a>TCP协议</h4><p>TCP数据包需要设置端口，接收方（Google）的HTTP端口默认是80，发送方（本机）的端口是一个随机生成的1024-65535之间的整数，假定为51775。</p>
@@ -179,13 +179,13 @@
 <p>IP数据包的标头长度为20字节，加上嵌入的TCP数据包，总长度变为5000字节。</p>
 <h4 id="以太网协议-1"><a href="#以太网协议-1" class="headerlink" title="以太网协议"></a>以太网协议</h4><p>最后，IP数据包嵌入以太网数据包。以太网数据包需要设置双方的MAC地址，发送方为本机的网卡MAC地址，接收方为网关192.168.1.1的MAC地址（通过ARP协议得到）。</p>
 <p>以太网数据包的数据部分，最大长度为1500字节，而现在的IP数据包长度为5000字节。因此，IP数据包必须分割成四个包。因为每个包都有自己的IP标头（20字节），所以四个包的IP数据包的长度分别为1500、1500、1500、560。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061107.png" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061107.png" alt="数据包"></p>
 <h4 id="服务器相应"><a href="#服务器相应" class="headerlink" title="服务器相应"></a>服务器相应</h4><p>经过多个网关的转发，Google的服务器172.194.72.105，收到了这四个以太网数据包。</p>
 <p>根据IP标头的序号，Google将四个包拼起来，取出完整的TCP数据包，然后读出里面的”HTTP请求”，接着做出”HTTP响应”，再用TCP协议发回来。</p>
 <p>本机收到HTTP响应以后，就可以将网页显示出来，完成一次网络通信。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061104.jpg" alt="img"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/201206/bg2012061104.jpg" alt="google"></p>
 <p>这个例子就到此为止，虽然经过了简化，但它大致上反映了互联网协议的整个通信过程。</p>
-</div><div class="tags"><a href="/tags/协议/">协议</a><a href="/tags/HTTP/">HTTP</a><a href="/tags/IP/">IP</a></div><div class="post-nav"><a class="next" href="/2018/02/05/Java基础/Java 8 并发 Threads 和 Executors/">Java 8 并发 Threads 和 Executors</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
+</div><div class="tags"><a href="/tags/协议/">协议</a><a href="/tags/HTTP/">HTTP</a><a href="/tags/IP/">IP</a></div><div class="post-nav"><a class="pre" href="/2018/03/07/其他/各环境变量配置/">各环境变量配置</a><a class="next" href="/2018/02/05/Java基础/Java 8 并发 Threads 和 Executors/">Java 8 并发 Threads 和 Executors</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
   owner: 'wtksana',
   repo: 'wtksana.github.io',
   oauth: {
@@ -194,4 +194,4 @@
   },
 })
 gitment.render('container')
-</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="wtksana.github.io"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java高级/">Java高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mysql/">Mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Centos/" style="font-size: 15px;">Centos</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/SpringBoot/" style="font-size: 15px;">SpringBoot</a> <a href="/tags/Redis/" style="font-size: 15px;">Redis</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Https/" style="font-size: 15px;">Https</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Mysql/" style="font-size: 15px;">Mysql</a> <a href="/tags/IDEA/" style="font-size: 15px;">IDEA</a> <a href="/tags/协议/" style="font-size: 15px;">协议</a> <a href="/tags/HTTP/" style="font-size: 15px;">HTTP</a> <a href="/tags/IP/" style="font-size: 15px;">IP</a> <a href="/tags/VPS/" style="font-size: 15px;">VPS</a> <a href="/tags/SSR/" style="font-size: 15px;">SSR</a> <a href="/tags/BBR/" style="font-size: 15px;">BBR</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/04/其他/互联网协议入门/">互联网协议入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/05/Java基础/Java 8 并发 Threads 和 Executors/">Java 8 并发 Threads 和 Executors</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/其他/SpringBoot使用IDEA远程debug/">SpringBoot使用IDEA远程debug</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/其他/SpringBoot+Nginx+Https/">阿里云+Https+Nginx+SpringBoot</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/26/其他/VPS安装SSR和BBR/">VPS安装SSR和BBR</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/03/其他/Centos通过yum安装mysql/">Centos通过yum安装mysql</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/27/SpringBoot/SpringBoot 项目构建/">SpringBoot 项目构建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/18/Redis/redis缓存击穿、穿透、雪崩问题/">缓存击穿、穿透、雪崩问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/04/Mysql/日志表数据量大查询慢/">日志表数据量大查询慢问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/20/Mysql/Mysql引擎/">Mysql引擎</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">tt_study.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="wtksana.github.io"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java高级/">Java高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mysql/">Mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Https/" style="font-size: 15px;">Https</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/Jenkins/" style="font-size: 15px;">Jenkins</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Centos/" style="font-size: 15px;">Centos</a> <a href="/tags/Mysql/" style="font-size: 15px;">Mysql</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/SpringBoot/" style="font-size: 15px;">SpringBoot</a> <a href="/tags/IDEA/" style="font-size: 15px;">IDEA</a> <a href="/tags/VPS/" style="font-size: 15px;">VPS</a> <a href="/tags/SS/" style="font-size: 15px;">SS</a> <a href="/tags/协议/" style="font-size: 15px;">协议</a> <a href="/tags/HTTP/" style="font-size: 15px;">HTTP</a> <a href="/tags/IP/" style="font-size: 15px;">IP</a> <a href="/tags/Redis/" style="font-size: 15px;">Redis</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/07/其他/Jenkins安装配置+部署SpringBoot/">Jenkins安装配置+部署SpringBoot</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/07/其他/各环境变量配置/">各环境变量配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/04/其他/互联网协议入门/">互联网协议入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/05/Java基础/Java 8 并发 Threads 和 Executors/">Java 8 并发 Threads 和 Executors</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/其他/SpringBoot使用IDEA远程debug/">SpringBoot使用IDEA远程debug</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/其他/SpringBoot+Nginx+Https/">阿里云+Https+Nginx+SpringBoot</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/26/其他/VPS安装SSR和BBR/">VPS安装SSR和BBR</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/03/其他/Centos通过yum安装mysql/">Centos通过yum安装mysql</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/27/SpringBoot/SpringBoot 项目构建/">SpringBoot 项目构建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/18/Redis/redis缓存击穿、穿透、雪崩问题/">缓存击穿、穿透、雪崩问题</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">tt_study.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
