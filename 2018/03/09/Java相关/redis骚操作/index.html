@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="我的学习记录，部分资料来自网络"><title>Redis进阶命令 | tt_study</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Redis进阶命令</h1><a id="logo" href="/.">tt_study</a><p class="description">我的学习记录，部分资料来自网络</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Redis进阶命令</h1><div class="post-meta">Mar 9, 2018<span> | </span><span class="category"><a href="/categories/Java相关/">Java相关</a></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#redis-info-命令详解"><span class="toc-text">redis info 命令详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#骚操作"><span class="toc-text">骚操作</span></a></li></ol></div></div><div class="post-content"><h3 id="redis-info-命令详解"><a href="#redis-info-命令详解" class="headerlink" title="redis info 命令详解"></a>redis info 命令详解</h3><p>以一种易于解释（parse）且易于阅读的格式，返回关于 Redis 服务器的各种信息和统计数值。</p>
+<p>通过给定可选的参数 <code>section</code> ，可以让命令只返回某一部分的信息：</p>
+<ul>
+<li><p><code>server</code> : 一般 Redis 服务器信息，包含以下域：</p>
+<blockquote>
+<ul>
+<li><code>redis_version</code> : Redis 服务器版本</li>
+<li><code>redis_git_sha1</code> : Git SHA1</li>
+<li><code>redis_git_dirty</code> : Git dirty flag</li>
+<li><code>os</code> : Redis 服务器的宿主操作系统</li>
+<li><code>arch_bits</code> : 架构（32 或 64 位）</li>
+<li><code>multiplexing_api</code> : Redis 所使用的事件处理机制</li>
+<li><code>gcc_version</code> : 编译 Redis 时所使用的 GCC 版本</li>
+<li><code>process_id</code> : 服务器进程的 PID</li>
+<li><code>run_id</code> : Redis 服务器的随机标识符（用于 Sentinel 和集群）</li>
+<li><code>tcp_port</code> : TCP/IP 监听端口</li>
+<li><code>uptime_in_seconds</code> : 自 Redis 服务器启动以来，经过的秒数</li>
+<li><code>uptime_in_days</code> : 自 Redis 服务器启动以来，经过的天数</li>
+<li><code>lru_clock</code> : 以分钟为单位进行自增的时钟，用于 LRU 管理</li>
+</ul>
+</blockquote>
+</li>
+<li><p><code>clients</code> : 已连接客户端信息，包含以下域：</p>
+<blockquote>
+<ul>
+<li><code>connected_clients</code> : 已连接客户端的数量（不包括通过从属服务器连接的客户端）</li>
+<li><code>client_longest_output_list</code> : 当前连接的客户端当中，最长的输出列表</li>
+<li><code>client_longest_input_buf</code> : 当前连接的客户端当中，最大输入缓存</li>
+<li><code>blocked_clients</code> : 正在等待阻塞命令（BLPOP、BRPOP、BRPOPLPUSH）的客户端的数量</li>
+</ul>
+</blockquote>
+</li>
+<li><p><code>memory</code> : 内存信息，包含以下域：</p>
+<blockquote>
+<ul>
+<li><code>used_memory</code> : 由 Redis 分配器分配的内存总量，以字节（byte）为单位</li>
+<li><code>used_memory_human</code> : 以人类可读的格式返回 Redis 分配的内存总量</li>
+<li><code>used_memory_rss</code> : 从操作系统的角度，返回 Redis 已分配的内存总量（俗称常驻集大小）。这个值和 <code>top</code> 、 <code>ps</code> 等命令的输出一致。</li>
+<li><code>used_memory_peak</code> : Redis 的内存消耗峰值（以字节为单位）</li>
+<li><code>used_memory_peak_human</code> : 以人类可读的格式返回 Redis 的内存消耗峰值</li>
+<li><code>used_memory_lua</code> : Lua 引擎所使用的内存大小（以字节为单位）</li>
+<li><code>mem_fragmentation_ratio</code> : <code>used_memory_rss</code> 和 <code>used_memory</code> 之间的比率</li>
+<li><code>mem_allocator</code> : 在编译时指定的， Redis 所使用的内存分配器。可以是 libc 、 jemalloc 或者 tcmalloc 。</li>
+</ul>
+<p>在理想情况下， <code>used_memory_rss</code> 的值应该只比 <code>used_memory</code> 稍微高一点儿。</p>
+<p>当 <code>rss &gt; used</code> ，且两者的值相差较大时，表示存在（内部或外部的）内存碎片。</p>
+<p>内存碎片的比率可以通过 <code>mem_fragmentation_ratio</code> 的值看出。</p>
+<p>当 <code>used &gt; rss</code> 时，表示 Redis 的部分内存被操作系统换出到交换空间了，在这种情况下，操作可能会产生明显的延迟。</p>
+<p>Because Redis does not have control over how its allocations are mapped to memory pages, high <code>used_memory_rss</code> is often the result of a spike in memory usage.</p>
+<p>当 Redis 释放内存时，分配器可能会，也可能不会，将内存返还给操作系统。</p>
+<p>如果 Redis 释放了内存，却没有将内存返还给操作系统，那么 <code>used_memory</code> 的值可能和操作系统显示的 Redis 内存占用并不一致。</p>
+<p>查看 <code>used_memory_peak</code> 的值可以验证这种情况是否发生。</p>
+</blockquote>
+</li>
+<li><p><code>persistence</code> : <code>RDB</code> 和 <code>AOF</code> 的相关信息</p>
+</li>
+<li><p><code>stats</code> : 一般统计信息</p>
+</li>
+<li><p><code>replication</code> : 主/从复制信息</p>
+</li>
+<li><p><code>cpu</code> : CPU 计算量统计信息</p>
+</li>
+<li><p><code>commandstats</code> : Redis 命令统计信息</p>
+</li>
+<li><p><code>cluster</code> : Redis 集群信息</p>
+</li>
+<li><p><code>keyspace</code> : 数据库相关的统计信息</p>
+</li>
+</ul>
+<p>除上面给出的这些值以外，参数还可以是下面这两个：</p>
+<ul>
+<li><code>all</code> : 返回所有信息</li>
+<li><code>default</code> : 返回默认选择的信息</li>
+</ul>
+<p>当不带参数直接调用 <a href="http://redis.readthedocs.org/en/latest/server/info.html#info" target="_blank" rel="noopener">INFO</a> 命令时，使用 <code>default</code> 作为默认参数。</p>
+<p>不同版本的 Redis 可能对返回的一些域进行了增加或删减。</p>
+<p>因此，一个健壮的客户端程序在对 <a href="http://redis.readthedocs.org/en/latest/server/info.html#info" target="_blank" rel="noopener"><em>INFO</em></a> 命令的输出进行分析时，应该能够跳过不认识的域，并且妥善地处理丢失不见的域。</p>
+<h3 id="骚操作"><a href="#骚操作" class="headerlink" title="骚操作"></a>骚操作</h3><ul>
+<li>删除模糊匹配key</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli KEYS *abc* | xargs redis-cli DEL</span><br></pre></td></tr></table></figure>
+</div><div class="tags"><a href="/tags/Redis/">Redis</a></div><div class="post-nav"><a class="pre" href="/2018/03/09/Mysql/Mysql用户相关/">Mysql用户相关</a><a class="next" href="/2018/03/07/其他/Jenkins安装配置+部署SpringBoot/">Jenkins安装配置+部署SpringBoot</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
+  owner: 'wtksana',
+  repo: 'wtksana.github.io',
+  oauth: {
+    client_id: '3337687b3c13cd764c2a',
+    client_secret: '524f7e3efacf27d6614a5f2a9f623f8753a84eb5',
+  },
+})
+gitment.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="wtksana.github.io"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java基础/">Java基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java相关/">Java相关</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mysql/">Mysql</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Others/">Others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring/">Spring</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/IDEA/" style="font-size: 15px;">IDEA</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/ZooKeeper/" style="font-size: 15px;">ZooKeeper</a> <a href="/tags/MQ/" style="font-size: 15px;">MQ</a> <a href="/tags/Mysql/" style="font-size: 15px;">Mysql</a> <a href="/tags/SpringBoot/" style="font-size: 15px;">SpringBoot</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Centos/" style="font-size: 15px;">Centos</a> <a href="/tags/Redis/" style="font-size: 15px;">Redis</a> <a href="/tags/Https/" style="font-size: 15px;">Https</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/VPS/" style="font-size: 15px;">VPS</a> <a href="/tags/SS/" style="font-size: 15px;">SS</a> <a href="/tags/Jenkins/" style="font-size: 15px;">Jenkins</a> <a href="/tags/协议/" style="font-size: 15px;">协议</a> <a href="/tags/HTTP/" style="font-size: 15px;">HTTP</a> <a href="/tags/IP/" style="font-size: 15px;">IP</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Mysql/Mysql用户相关/">Mysql用户相关</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Java相关/redis骚操作/">Redis进阶命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/07/其他/Jenkins安装配置+部署SpringBoot/">Jenkins安装配置+部署SpringBoot</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/07/其他/各环境变量配置/">各环境变量配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/04/其他/互联网协议入门/">互联网协议入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/05/Java基础/Java 8 并发 Threads 和 Executors/">Java 8 并发 Threads 和 Executors</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/其他/SpringBoot使用IDEA远程debug/">SpringBoot使用IDEA远程debug</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/其他/SpringBoot+Nginx+Https/">阿里云+Https+Nginx+SpringBoot</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/26/其他/VPS安装SSR和BBR/">VPS安装SSR和BBR</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/03/其他/Centos通过yum安装mysql/">Centos通过yum安装mysql</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">tt_study.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
