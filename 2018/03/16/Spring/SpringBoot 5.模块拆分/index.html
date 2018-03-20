@@ -1,24 +1,22 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="我的学习记录，部分资料来自网络"><title>SpringBoot使用IDEA远程debug | tt_study</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">SpringBoot使用IDEA远程debug</h1><a id="logo" href="/.">tt_study</a><p class="description">我的学习记录，部分资料来自网络</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">SpringBoot使用IDEA远程debug</h1><div class="post-meta">Feb 1, 2018<span> | </span><span class="category"><a href="/categories/Others/">Others</a></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#IDEA配置"><span class="toc-text">IDEA配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务器启动SpringBoot项目"><span class="toc-text">服务器启动SpringBoot项目</span></a></li></ol></div></div><div class="post-content"><h4 id="IDEA配置"><a href="#IDEA配置" class="headerlink" title="IDEA配置"></a>IDEA配置</h4><p>debug选择remote，一般会有默认配置，使用默认配置即可。如果没有默认配置，可以按照下图：</p>
-<p><img src="http://odskyj8je.bkt.clouddn.com/idea-remote-debug.png" alt="idea配置"></p>
-<blockquote>
-<p>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</p>
-<p>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</p>
-</blockquote>
-<p>Host填自己的服务器ip</p>
-<h4 id="服务器启动SpringBoot项目"><a href="#服务器启动SpringBoot项目" class="headerlink" title="服务器启动SpringBoot项目"></a>服务器启动SpringBoot项目</h4><p>之前启动SpringBoot的方式为:</p>
-<blockquote>
-<p>java -jar test.jar</p>
-</blockquote>
-<p>现在需传入参数开启远程debug:</p>
-<blockquote>
-<p>java -jar -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 test.jar</p>
-</blockquote>
-<p>这样服务端就监听在5005端口了。可以通过以下命令来检查是否监听成功：</p>
-<blockquote>
-<p>netstat -anp | grep 5005</p>
-</blockquote>
-<p>成功后IDEA选择remote点击debug，打上断点就可以开始调试了。</p>
-</div><div class="tags"><a href="/tags/SpringBoot/">SpringBoot</a><a href="/tags/Https/">Https</a><a href="/tags/IDEA/">IDEA</a></div><div class="post-nav"><a class="pre" href="/2018/02/05/Java基础/Java 8 并发 Threads 和 Executors/">Java 8 并发 Threads 和 Executors</a><a class="next" href="/2018/02/01/其他/SpringBoot+Nginx+Https/">阿里云+Https+Nginx+SpringBoot</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="我的学习记录，部分资料来自网络"><title>SpringBoot 5.模块拆分 | tt_study</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">SpringBoot 5.模块拆分</h1><a id="logo" href="/.">tt_study</a><p class="description">我的学习记录，部分资料来自网络</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">SpringBoot 5.模块拆分</h1><div class="post-meta">Mar 16, 2018<span> | </span><span class="category"><a href="/categories/Spring/">Spring</a></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">文章目录</div></div></div><div class="post-content"><p>为了之后更好的扩展我们的程序，这节我们将我们的项目拆分出若干个子模块。</p>
+<p>先看下我们未拆分前的项目：</p>
+<p><img src="http://odskyj8je.bkt.clouddn.com/image/study/sbs-idea-jiegou6.png" alt="jiegou6"></p>
+<p>接下来我们先拆分common模块：</p>
+<p>新建一个module：</p>
+<p><img src="http://odskyj8je.bkt.clouddn.com/image/study/sbs-idea-jiemian1.png" alt="jiemian1"></p>
+<p>选择maven，next：</p>
+<p><img src="http://odskyj8je.bkt.clouddn.com/sbs-idea-jiemian2.png" alt="jiemian2"></p>
+<p>ArtifactId填common，next，finish：</p>
+<p><img src="http://odskyj8je.bkt.clouddn.com/image/study/sbs-idea-jiemian3.png" alt="jiemian3"></p>
+<p>可以看到，我们项目下多了一个common模块：</p>
+<p><img src="http://odskyj8je.bkt.clouddn.com/image/study/sbs-idea-jiegou7.png" alt="jiegou7"></p>
+<p>我们在common模块下新建包，并把之前的common包下的文件，移到新的包下，并添加相关依赖：</p>
+<p><img src="http://odskyj8je.bkt.clouddn.com/image/study/sbs-idea-jiegou8.png" alt="jiegou8"></p>
+<p>同样的，我们再新建model(entity)模块、dao(mapper)模块、service模块、web模块。</p>
+<p>最后我们的项目结构变成了：</p>
+<p><img src="http://odskyj8je.bkt.clouddn.com/image/study/sbs-idea-jiegou9.png" alt="jiegou9"></p>
+<p>这里重构项目结构对依赖改动比较大，需要一点maven知识，实在弄不出来的可以参考下这里<a href="https://github.com/wtksana/study-demo/tree/v0.0.1refactor" target="_blank" rel="noopener">项目git地址</a>的配置。</p>
+</div><div class="tags"><a href="/tags/SpringBoot/">SpringBoot</a></div><div class="post-nav"><a class="pre" href="/2018/03/19/Spring/SpringBoot 6.整合Redis和session/">SpringBoot 6.整合Redis Cache和session</a><a class="next" href="/2018/03/16/Spring/SpringBoot 4.过滤器、监听器、拦截器/">SpringBoot 4.过滤器、监听器、拦截器</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
   owner: 'wtksana',
   repo: 'wtksana.github.io',
   oauth: {
